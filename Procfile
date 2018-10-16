@@ -1,1 +1,1 @@
-worker: sh target/bin/blaBot-1.0-SNAPSHOT
+worker: sh target/bin/blaBot
