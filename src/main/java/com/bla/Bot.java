@@ -60,7 +60,7 @@ public class Bot extends TelegramLongPollingBot {
      */
     @Override
     public String getBotToken() {
-        return "go_rnd";
+        return "623664359:AAF616iuDKmdZWOcHL56P2sgbbwxY5LZsgg";
     }
 
     @SuppressWarnings("deprecation") // Означает то, что в новых версиях метод уберут или заменят
