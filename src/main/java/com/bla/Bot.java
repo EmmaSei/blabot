@@ -41,6 +41,7 @@ public class Bot extends TelegramLongPollingBot {
         String txt = msg.getText();
         if (txt.equals("/start")) {
             sendMsg(msg, "Hello, world! This is your lovely bot!");
+            answerCallbackQuery(e.getCallbackQuery().getId(), "I love you!");
         }
     }
 
