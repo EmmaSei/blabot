@@ -1,5 +1,6 @@
 package com.bla;
 
+import com.bla.entities.Car;
 import org.telegram.telegrambots.ApiContextInitializer;
 import org.telegram.telegrambots.TelegramBotsApi;
 import org.telegram.telegrambots.api.methods.AnswerCallbackQuery;
@@ -20,6 +21,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 public class Bot extends TelegramLongPollingBot {
+    private Car car = new Car();
 
     public static void main(String[] args) {
         ApiContextInitializer.init(); // Инициализируем апи
@@ -42,6 +44,24 @@ public class Bot extends TelegramLongPollingBot {
         if (txt.equals("/start")) {
             sendMsg(msg, "Hello, world! This is your lovely bot!");
             answerCallbackQuery(e.getCallbackQuery().getId(), "I love you!");
+        }
+        if (txt.equals("Предложить поездку")) {
+
+            sendMsg(msg, "Первая поездка! Расскажи о своей машине\nНомер: /number\nМарка: /marka\nМодель: /model\nЦвет: /color");
+
+        }
+        if (txt.equals("Найти поездку")) {
+            sendMsg(msg, "Уже ищу!");
+
+        }
+        if (txt.equals("/number")) {
+            car.setNumber(e.toString());
+            sendMsg(msg, "Уже ищу!");
+
+        }
+        if (txt.equals("/marka")) {
+            sendMsg(msg, "Уже ищу!");
+
         }
     }
 
