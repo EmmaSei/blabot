@@ -41,7 +41,9 @@ public class Bot extends TelegramLongPollingBot {
         String txt = msg.getText();
         if (txt.equals("/start")) {
             sendMsg(msg, "Hello, world! This is your lovely bot!");
-            answerCallbackQuery(e.getCallbackQuery().getId(), "I love you!");
+            if(e.hasCallbackQuery()) {
+                AnswerCallbackQuery answerThread = new AnswerCallbackQuery(e.getCallbackQuery(),);
+            }
         }
     }
 
@@ -91,12 +93,12 @@ public class Bot extends TelegramLongPollingBot {
         // Первая строчка клавиатуры
         KeyboardRow keyboardFirstRow = new KeyboardRow();
         // Добавляем кнопки в первую строчку клавиатуры
-        keyboardFirstRow.add(new KeyboardButton("Привет"));
+        keyboardFirstRow.add(new KeyboardButton("Предложить поездку"));
 
         // Вторая строчка клавиатуры
         KeyboardRow keyboardSecondRow = new KeyboardRow();
         // Добавляем кнопки во вторую строчку клавиатуры
-        keyboardSecondRow.add(new KeyboardButton("Помощь"));
+        keyboardSecondRow.add(new KeyboardButton("Найти поездку"));
 
         // Добавляем все строчки клавиатуры в список
         keyboard.add(keyboardFirstRow);
