@@ -24,6 +24,7 @@ import java.util.logging.Logger;
 
 public class Bot extends TelegramLongPollingBot {
     private Car car = new Car();
+    private ArrayList<String> txtsOfBtns = new ArrayList<>();
 
     public static void main(String[] args) {
         ApiContextInitializer.init(); // Инициализируем апи
@@ -49,21 +50,37 @@ public class Bot extends TelegramLongPollingBot {
 
             switch (txt) {
                 case "/start" : {
+                        txtsOfBtns.add("Предложить поездку");
+                        txtsOfBtns.add("Найти поездку");
                         sendMsg(msg, "Hello, world! This is your stupid bot!");
                         answerCallbackQuery(update.getCallbackQuery().getId(), "Blya!");
                         break;
                     }
                 case "Предложить поездку": {
+                        // TODO: check cars info
+                        boolean firstTrip = true;
+                        if (firstTrip) {
+                            // TODO: include library of cars brands
+                            ArrayList<String> listOfBrands = new ArrayList<>();
 
-                        sendMsg(msg, "Первая поездка! Расскажи о своей машине\nНомер: /number\nМарка: /marka\nМодель: /model\nЦвет: /color");
-                        ForwardMessage forwardMessage = new ForwardMessage();
-                        try {
-                            Message msgF = forwardMessage(forwardMessage);
-                            sendMsg(msgF, "qwer");
-                        } catch (TelegramApiException e1) {
-                            e1.printStackTrace();
-                        } finally {
-                            break;
+                            //TODO remove this mock
+                            {
+                                listOfBrands.add("Mersedes");
+                                listOfBrands.add("BMW");
+                                listOfBrands.add("Audi");
+                                listOfBrands.add("Toyota");
+                            }
+
+                            sendMsg(msg, "Первая поездка! Расскажи о своей машине. Какой она Марки?");
+                            ForwardMessage forwardMessage = new ForwardMessage();
+                            try {
+                                Message msgF = forwardMessage(forwardMessage);
+                                sendMsg(msgF, "qwer");
+                            } catch (TelegramApiException e1) {
+                                e1.printStackTrace();
+                            } finally {
+                                break;
+                            }
                         }
                     }
                 case "Найти поездку" : {
@@ -104,18 +121,18 @@ public class Bot extends TelegramLongPollingBot {
 
     @SuppressWarnings("deprecation") // Означает то, что в новых версиях метод уберут или заменят
     private void sendMsg(Message msg, String text) {
-        SendMessage s = new SendMessage();
-        s.setChatId(msg.getChatId()); // Боту может писать не один человек, и поэтому чтобы отправить сообщение, грубо говоря нужно узнать куда его отправлять
-        s.setText(text);
-        setButtons(s);
+        SendMessage sendMessage = new SendMessage();
+        sendMessage.setChatId(msg.getChatId()); // Боту может писать не один человек, и поэтому чтобы отправить сообщение, грубо говоря нужно узнать куда его отправлять
+        sendMessage.setText(text);
+        setButtons(sendMessage, txtsOfBtns);
         setInline();
         try { //Чтобы не крашнулась программа при вылете Exception
-            sendMessage(s);
+            sendMessage(sendMessage);
         } catch (TelegramApiException e){
             e.printStackTrace();
         }
     }
-    public synchronized void setButtons(SendMessage sendMessage) {
+    public synchronized void setButtons(SendMessage sendMessage, ArrayList<String> txtsOfBtns) {
         // Создаем клавиуатуру
         ReplyKeyboardMarkup replyKeyboardMarkup = new ReplyKeyboardMarkup();
         sendMessage.setReplyMarkup(replyKeyboardMarkup);
@@ -126,19 +143,12 @@ public class Bot extends TelegramLongPollingBot {
         // Создаем список строк клавиатуры
         List<KeyboardRow> keyboard = new ArrayList<>();
 
-        // Первая строчка клавиатуры
-        KeyboardRow keyboardFirstRow = new KeyboardRow();
-        // Добавляем кнопки в первую строчку клавиатуры
-        keyboardFirstRow.add(new KeyboardButton("Предложить поездку"));
 
-        // Вторая строчка клавиатуры
-        KeyboardRow keyboardSecondRow = new KeyboardRow();
-        // Добавляем кнопки во вторую строчку клавиатуры
-        keyboardSecondRow.add(new KeyboardButton("Найти поездку"));
-
-        // Добавляем все строчки клавиатуры в список
-        keyboard.add(keyboardFirstRow);
-        keyboard.add(keyboardSecondRow);
+        txtsOfBtns.forEach(lbl -> {
+            KeyboardRow instanceKeyboardRow = new KeyboardRow();
+            instanceKeyboardRow.add(new KeyboardButton(lbl));
+            keyboard.add(instanceKeyboardRow);
+        });
         // и устанваливаем этот список нашей клавиатуре
         replyKeyboardMarkup.setKeyboard(keyboard);
     }
