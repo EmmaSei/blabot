@@ -42,12 +42,17 @@ public class Bot extends TelegramLongPollingBot {
     // TODO: Replace blocks of 'If' to 'Switch-Case'
     @Override
     public void onUpdateReceived(Update update) {
+        System.out.println('1');
         System.out.println(update.getCallbackQuery());
-        System.out.println(update.getCallbackQuery().getData());
+        System.out.println('2');
         System.out.println(update.getCallbackQuery().getFrom());
+        System.out.println('3');
         System.out.println(update.getCallbackQuery().getId());
+        System.out.println('4');
         System.out.println(update.getCallbackQuery().getMessage());
+        System.out.println('5');
         System.out.println(update.getCallbackQuery().getMessage().getFrom());
+        System.out.println('6');
         System.out.println(update.getCallbackQuery().getMessage().getText());
 //        if(update.hasMessage()) {
 //            Message msg = update.getMessage();
