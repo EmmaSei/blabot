@@ -4,6 +4,7 @@ import com.bla.entities.Car;
 import org.telegram.telegrambots.ApiContextInitializer;
 import org.telegram.telegrambots.TelegramBotsApi;
 import org.telegram.telegrambots.api.methods.AnswerCallbackQuery;
+import org.telegram.telegrambots.api.methods.ForwardMessage;
 import org.telegram.telegrambots.api.methods.send.SendMessage;
 import org.telegram.telegrambots.api.objects.Message;
 import org.telegram.telegrambots.api.objects.Update;
@@ -42,12 +43,13 @@ public class Bot extends TelegramLongPollingBot {
         Message msg = e.getMessage(); // Это нам понадобится
         String txt = msg.getText();
         if (txt.equals("/start")) {
-            sendMsg(msg, "Hello, world! This is your lovely bot!");
-            answerCallbackQuery(e.getCallbackQuery().getId(), "I love you!");
+            sendMsg(msg, "Hello, world! This is your stupid bot!");
+            answerCallbackQuery(e.getCallbackQuery().getId(), "Blya!");
         }
         if (txt.equals("Предложить поездку")) {
 
             sendMsg(msg, "Первая поездка! Расскажи о своей машине\nНомер: /number\nМарка: /marka\nМодель: /model\nЦвет: /color");
+            //new ForwardMessage();
 
         }
         if (txt.equals("Найти поездку")) {
@@ -56,11 +58,11 @@ public class Bot extends TelegramLongPollingBot {
         }
         if (txt.equals("/number")) {
             car.setNumber(e.toString());
-            sendMsg(msg, "Уже ищу!");
+            sendMsg(msg, car.toString());
 
         }
         if (txt.equals("/marka")) {
-            sendMsg(msg, "Уже ищу!");
+            sendMsg(msg, car.toString());
 
         }
     }
