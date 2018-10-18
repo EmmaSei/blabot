@@ -50,6 +50,7 @@ public class Bot extends TelegramLongPollingBot {
 
             switch (txt) {
                 case "/start" : {
+                        txtsOfBtns.clear();
                         txtsOfBtns.add("Предложить поездку");
                         txtsOfBtns.add("Найти поездку");
                         sendMsg(msg, "Hello, world! This is your stupid bot!");
@@ -70,6 +71,9 @@ public class Bot extends TelegramLongPollingBot {
                                 listOfBrands.add("Audi");
                                 listOfBrands.add("Toyota");
                             }
+
+                            txtsOfBtns.clear();
+                            listOfBrands.forEach(brand -> txtsOfBtns.add(brand));
 
                             sendMsg(msg, "Первая поездка! Расскажи о своей машине. Какой она Марки?");
                             ForwardMessage forwardMessage = new ForwardMessage();
