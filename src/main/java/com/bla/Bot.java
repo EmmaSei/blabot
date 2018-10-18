@@ -6,6 +6,7 @@ import org.telegram.telegrambots.TelegramBotsApi;
 import org.telegram.telegrambots.api.methods.AnswerCallbackQuery;
 import org.telegram.telegrambots.api.methods.ForwardMessage;
 import org.telegram.telegrambots.api.methods.send.SendMessage;
+import org.telegram.telegrambots.api.objects.CallbackQuery;
 import org.telegram.telegrambots.api.objects.Message;
 import org.telegram.telegrambots.api.objects.Update;
 import org.telegram.telegrambots.api.objects.replykeyboard.InlineKeyboardMarkup;
@@ -36,40 +37,55 @@ public class Bot extends TelegramLongPollingBot {
 
     /**
      * Метод для приема сообщений.
-     * @param e Содержит сообщение от пользователя.
+     * @param update Содержит сообщение от пользователя.
      */
+    // TODO: Replace blocks of 'If' to 'Switch-Case'
     @Override
-    public void onUpdateReceived(Update e) {
-        Message msg = e.getMessage(); // Это нам понадобится
-        String txt = msg.getText();
-        if (txt.equals("/start")) {
-            sendMsg(msg, "Hello, world! This is your stupid bot!");
-            answerCallbackQuery(e.getCallbackQuery().getId(), "Blya!");
-        }
-        if (txt.equals("Предложить поездку")) {
-
-            sendMsg(msg, "Первая поездка! Расскажи о своей машине\nНомер: /number\nМарка: /marka\nМодель: /model\nЦвет: /color");
-            ForwardMessage forwardMessage = new ForwardMessage();
-            try {
-                Message msgF = forwardMessage(forwardMessage);
-                sendMsg(msgF, "qwer");
-            } catch (TelegramApiException e1) {
-                e1.printStackTrace();
-            }
-        }
-        if (txt.equals("Найти поездку")) {
-            sendMsg(msg, "Уже ищу!");
-
-        }
-        if (txt.equals("/number")) {
-            car.setNumber(e.toString());
-            sendMsg(msg, car.toString());
-
-        }
-        if (txt.equals("/marka")) {
-            sendMsg(msg, car.toString());
-
-        }
+    public void onUpdateReceived(Update update) {
+        System.out.println(update.getCallbackQuery());
+        System.out.println(update.getCallbackQuery().getData());
+        System.out.println(update.getCallbackQuery().getFrom());
+        System.out.println(update.getCallbackQuery().getId());
+        System.out.println(update.getCallbackQuery().getMessage());
+        System.out.println(update.getCallbackQuery().getMessage().getFrom());
+        System.out.println(update.getCallbackQuery().getMessage().getText());
+//        if(update.hasMessage()) {
+//            Message msg = update.getMessage();
+//        } else  if(update.hasCallbackQuery()) {
+//            CallbackQuery callbackQuery = update.getCallbackQuery();
+//            callbackQuery.getMessage()
+//        }
+//
+//        Message msg = update.getMessage(); // Это нам понадобится
+//        String txt = msg.getText();
+//        if (txt.equals("/start")) {
+//            sendMsg(msg, "Hello, world! This is your stupid bot!");
+//            answerCallbackQuery(update.getCallbackQuery().getId(), "Blya!");
+//        }
+//        if (txt.equals("Предложить поездку")) {
+//
+//            sendMsg(msg, "Первая поездка! Расскажи о своей машине\nНомер: /number\nМарка: /marka\nМодель: /model\nЦвет: /color");
+//            ForwardMessage forwardMessage = new ForwardMessage();
+//            try {
+//                Message msgF = forwardMessage(forwardMessage);
+//                sendMsg(msgF, "qwer");
+//            } catch (TelegramApiException e1) {
+//                e1.printStackTrace();
+//            }
+//        }
+//        if (txt.equals("Найти поездку")) {
+//            sendMsg(msg, "Уже ищу!");
+//
+//        }
+//        if (txt.equals("/number")) {
+//            car.setNumber(update.toString());
+//            sendMsg(msg, car.toString());
+//
+//        }
+//        if (txt.equals("/marka")) {
+//            sendMsg(msg, car.toString());
+//
+//        }
     }
 
 
