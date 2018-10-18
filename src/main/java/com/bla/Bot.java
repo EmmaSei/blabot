@@ -45,46 +45,42 @@ public class Bot extends TelegramLongPollingBot {
         if(update.hasMessage()) {
             Message msg = update.getMessage();
             String txt = msg.getText();
-            System.out.println('1');
-            System.out.println(msg);
-            System.out.println('2');
-            System.out.println(msg.getFrom());
-            System.out.println('3');
-            System.out.println(msg.getMessageId());
-            System.out.println('4');
-            System.out.println(msg.getChatId());
-            System.out.println('4');
-            System.out.println(msg.getText());
-        }
+//            msg.getFrom().getId();
 
-//        if (txt.equals("/start")) {
-//            sendMsg(msg, "Hello, world! This is your stupid bot!");
-//            answerCallbackQuery(update.getCallbackQuery().getId(), "Blya!");
-//        }
-//        if (txt.equals("Предложить поездку")) {
-//
-//            sendMsg(msg, "Первая поездка! Расскажи о своей машине\nНомер: /number\nМарка: /marka\nМодель: /model\nЦвет: /color");
-//            ForwardMessage forwardMessage = new ForwardMessage();
-//            try {
-//                Message msgF = forwardMessage(forwardMessage);
-//                sendMsg(msgF, "qwer");
-//            } catch (TelegramApiException e1) {
-//                e1.printStackTrace();
-//            }
-//        }
-//        if (txt.equals("Найти поездку")) {
-//            sendMsg(msg, "Уже ищу!");
-//
-//        }
-//        if (txt.equals("/number")) {
-//            car.setNumber(update.toString());
-//            sendMsg(msg, car.toString());
-//
-//        }
-//        if (txt.equals("/marka")) {
-//            sendMsg(msg, car.toString());
-//
-//        }
+            switch (txt) {
+                case "/start" : {
+                        sendMsg(msg, "Hello, world! This is your stupid bot!");
+                        answerCallbackQuery(update.getCallbackQuery().getId(), "Blya!");
+                        break;
+                    }
+                case "Предложить поездку": {
+
+                        sendMsg(msg, "Первая поездка! Расскажи о своей машине\nНомер: /number\nМарка: /marka\nМодель: /model\nЦвет: /color");
+                        ForwardMessage forwardMessage = new ForwardMessage();
+                        try {
+                            Message msgF = forwardMessage(forwardMessage);
+                            sendMsg(msgF, "qwer");
+                        } catch (TelegramApiException e1) {
+                            e1.printStackTrace();
+                        } finally {
+                            break;
+                        }
+                    }
+                case "Найти поездку" : {
+                        sendMsg(msg, "Уже ищу!");
+                        break;
+                    }
+                case "/number" : {
+                        car.setNumber(update.toString());
+                        sendMsg(msg, car.toString());
+                        break;
+                    }
+                case "/marka" : {
+                        sendMsg(msg, car.toString());
+                        break;
+                    }
+            }
+        }
     }
 
 
