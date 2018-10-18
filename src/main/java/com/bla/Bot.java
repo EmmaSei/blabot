@@ -42,27 +42,21 @@ public class Bot extends TelegramLongPollingBot {
     // TODO: Replace blocks of 'If' to 'Switch-Case'
     @Override
     public void onUpdateReceived(Update update) {
-        System.out.println('1');
-        System.out.println(update.getCallbackQuery());
-        System.out.println('2');
-        System.out.println(update.getCallbackQuery().getFrom());
-        System.out.println('3');
-        System.out.println(update.getCallbackQuery().getId());
-        System.out.println('4');
-        System.out.println(update.getCallbackQuery().getMessage());
-        System.out.println('5');
-        System.out.println(update.getCallbackQuery().getMessage().getFrom());
-        System.out.println('6');
-        System.out.println(update.getCallbackQuery().getMessage().getText());
-//        if(update.hasMessage()) {
-//            Message msg = update.getMessage();
-//        } else  if(update.hasCallbackQuery()) {
-//            CallbackQuery callbackQuery = update.getCallbackQuery();
-//            callbackQuery.getMessage()
-//        }
-//
-//        Message msg = update.getMessage(); // Это нам понадобится
-//        String txt = msg.getText();
+        if(update.hasMessage()) {
+            Message msg = update.getMessage();
+            String txt = msg.getText();
+            System.out.println('1');
+            System.out.println(msg);
+            System.out.println('2');
+            System.out.println(msg.getFrom());
+            System.out.println('3');
+            System.out.println(msg.getMessageId());
+            System.out.println('4');
+            System.out.println(msg.getChatId());
+            System.out.println('4');
+            System.out.println(msg.getText());
+        }
+
 //        if (txt.equals("/start")) {
 //            sendMsg(msg, "Hello, world! This is your stupid bot!");
 //            answerCallbackQuery(update.getCallbackQuery().getId(), "Blya!");
