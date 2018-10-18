@@ -49,8 +49,13 @@ public class Bot extends TelegramLongPollingBot {
         if (txt.equals("Предложить поездку")) {
 
             sendMsg(msg, "Первая поездка! Расскажи о своей машине\nНомер: /number\nМарка: /marka\nМодель: /model\nЦвет: /color");
-            //new ForwardMessage();
-
+            ForwardMessage forwardMessage = new ForwardMessage();
+            try {
+                Message msgF = forwardMessage(forwardMessage);
+                sendMsg(msgF, "qwer");
+            } catch (TelegramApiException e1) {
+                e1.printStackTrace();
+            }
         }
         if (txt.equals("Найти поездку")) {
             sendMsg(msg, "Уже ищу!");
