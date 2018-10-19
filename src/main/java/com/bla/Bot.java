@@ -1,5 +1,6 @@
 package com.bla;
 
+import com.antonioaltieri.telegram.botapi.MessageHandler;
 import com.bla.entities.Car;
 import org.telegram.telegrambots.ApiContextInitializer;
 import org.telegram.telegrambots.TelegramBotsApi;
@@ -15,13 +16,17 @@ import org.telegram.telegrambots.api.objects.replykeyboard.buttons.KeyboardButto
 import org.telegram.telegrambots.api.objects.replykeyboard.buttons.KeyboardRow;
 import org.telegram.telegrambots.bots.TelegramLongPollingBot;
 import org.telegram.telegrambots.exceptions.TelegramApiException;
+import com.antonioaltieri.telegram.botapi.types.Message.Type;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class Bot extends TelegramLongPollingBot {
     private Car car = new Car();
     private ArrayList<String> txtsOfBtns = new ArrayList<>();
+    private HashMap<String, String> inlineBtns = new HashMap<>();
 
     public static void main(String[] args) {
         ApiContextInitializer.init(); // Инициализируем апи
@@ -31,6 +36,11 @@ public class Bot extends TelegramLongPollingBot {
         } catch (TelegramApiException e) {
             e.printStackTrace();
         }
+    }
+
+    @MessageHandler(contentTypes = Type.TEXT)
+    public void onBrand() {
+
     }
 
     /**
@@ -48,6 +58,7 @@ public class Bot extends TelegramLongPollingBot {
             switch (txt) {
                 case "/start" : {
                         txtsOfBtns.clear();
+                        inlineBtns.clear();
                         txtsOfBtns.add("Предложить поездку");
                         txtsOfBtns.add("Найти поездку");
                         sendMsg(msg, "Hello, world! This is your stupid bot!");
@@ -70,6 +81,7 @@ public class Bot extends TelegramLongPollingBot {
                             }
 
                             txtsOfBtns.clear();
+                            inlineBtns.clear();
                             listOfBrands.forEach(brand -> txtsOfBtns.add(brand));
 
                             sendMsg(msg, "Первая поездка! Расскажи о своей машине. Какой она Марки?");
@@ -126,7 +138,7 @@ public class Bot extends TelegramLongPollingBot {
         sendMessage.setChatId(msg.getChatId()); // Боту может писать не один человек, и поэтому чтобы отправить сообщение, грубо говоря нужно узнать куда его отправлять
         sendMessage.setText(text);
         setButtons(sendMessage, txtsOfBtns);
-        setInline(sendMessage);
+        setInline(sendMessage, inlineBtns);
         try { //Чтобы не крашнулась программа при вылете Exception
             sendMessage(sendMessage);
         } catch (TelegramApiException e){
@@ -154,15 +166,17 @@ public class Bot extends TelegramLongPollingBot {
         replyKeyboardMarkup.setKeyboard(keyboard);
     }
 
-    private void setInline(SendMessage sendMessage) {
+    private void setInline(SendMessage sendMessage, Map<String, String> inlineBtns) {
         List<List<InlineKeyboardButton>> buttons = new ArrayList<>();
-        List<InlineKeyboardButton> buttons1 = new ArrayList<>();
-        buttons1.add(new InlineKeyboardButton().setText("Кнопка").setCallbackData("17"));
-        buttons.add(buttons1);
-
         InlineKeyboardMarkup markupKeyboard = new InlineKeyboardMarkup();
-        markupKeyboard.setKeyboard(buttons);
         sendMessage.setReplyMarkup(markupKeyboard);
+        inlineBtns.forEach((key, value) -> {
+            List<InlineKeyboardButton> button = new ArrayList<>();
+            button.add(new InlineKeyboardButton().setText(value).setCallbackData(key));
+            buttons.add(button);
+        });
+
+        markupKeyboard.setKeyboard(buttons);
     }
 
     public synchronized void answerCallbackQuery(String callbackId, String message) {
