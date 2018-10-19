@@ -6,7 +6,6 @@ import org.telegram.telegrambots.TelegramBotsApi;
 import org.telegram.telegrambots.api.methods.AnswerCallbackQuery;
 import org.telegram.telegrambots.api.methods.ForwardMessage;
 import org.telegram.telegrambots.api.methods.send.SendMessage;
-import org.telegram.telegrambots.api.objects.CallbackQuery;
 import org.telegram.telegrambots.api.objects.Message;
 import org.telegram.telegrambots.api.objects.Update;
 import org.telegram.telegrambots.api.objects.replykeyboard.InlineKeyboardMarkup;
@@ -19,8 +18,6 @@ import org.telegram.telegrambots.exceptions.TelegramApiException;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 public class Bot extends TelegramLongPollingBot {
     private Car car = new Car();
@@ -129,7 +126,7 @@ public class Bot extends TelegramLongPollingBot {
         sendMessage.setChatId(msg.getChatId()); // Боту может писать не один человек, и поэтому чтобы отправить сообщение, грубо говоря нужно узнать куда его отправлять
         sendMessage.setText(text);
         setButtons(sendMessage, txtsOfBtns);
-        setInline();
+        setInline(sendMessage);
         try { //Чтобы не крашнулась программа при вылете Exception
             sendMessage(sendMessage);
         } catch (TelegramApiException e){
@@ -157,7 +154,7 @@ public class Bot extends TelegramLongPollingBot {
         replyKeyboardMarkup.setKeyboard(keyboard);
     }
 
-    private void setInline() {
+    private void setInline(SendMessage sendMessage) {
         List<List<InlineKeyboardButton>> buttons = new ArrayList<>();
         List<InlineKeyboardButton> buttons1 = new ArrayList<>();
         buttons1.add(new InlineKeyboardButton().setText("Кнопка").setCallbackData("17"));
@@ -165,6 +162,7 @@ public class Bot extends TelegramLongPollingBot {
 
         InlineKeyboardMarkup markupKeyboard = new InlineKeyboardMarkup();
         markupKeyboard.setKeyboard(buttons);
+        sendMessage.setReplyMarkup(markupKeyboard);
     }
 
     public synchronized void answerCallbackQuery(String callbackId, String message) {
