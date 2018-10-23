@@ -93,8 +93,9 @@ public class Bot extends TelegramLongPollingBot {
                 default: {
                     if (listOfBrands.contains(txt)){
                         sendMsg(msg, "Отлично! Какая Модель?");
+                    } else {
+                        sendMsg(msg, msg.getFrom().getFirstName() + ", ты несешь чушь!");
                     }
-                    sendMsg(msg, msg.getFrom().getFirstName() + ", ты несешь чушь!");
                     break;
                 }
             }
