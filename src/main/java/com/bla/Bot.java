@@ -24,7 +24,6 @@ import java.util.Map;
 public class Bot extends TelegramLongPollingBot {
     private Car car = new Car();
     private ArrayList<String> txtsOfBtns = new ArrayList<>();
-    private HashMap<String, String> inlineBtns = new HashMap<>();
 
     public static void main(String[] args) {
         ApiContextInitializer.init(); // Инициализируем апи
@@ -50,7 +49,6 @@ public class Bot extends TelegramLongPollingBot {
             switch (txt) {
                 case "/start" : {
                         txtsOfBtns.clear();
-                        inlineBtns.clear();
                         txtsOfBtns.add("Предложить поездку");
                         txtsOfBtns.add("Найти поездку");
                         sendMsg(msg, "Hello, world! This is your stupid bot!");
@@ -73,7 +71,6 @@ public class Bot extends TelegramLongPollingBot {
                             }
 
                             txtsOfBtns.clear();
-                            inlineBtns.clear();
                             listOfBrands.forEach(brand -> txtsOfBtns.add(brand));
 
                             sendMsg(msg, "Первая поездка! Расскажи о своей машине. Какой она Марки?");
@@ -132,7 +129,6 @@ public class Bot extends TelegramLongPollingBot {
 //        sendMessage.setReplyToMessageId(msg.getMessageId());
         sendMessage.setText(text);
         setButtons(sendMessage, txtsOfBtns);
-        setInline(sendMessage, inlineBtns);
         try {
             sendMessage(sendMessage);
         } catch (TelegramApiException e){
