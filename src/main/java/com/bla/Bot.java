@@ -129,7 +129,7 @@ public class Bot extends TelegramLongPollingBot {
         SendMessage sendMessage = new SendMessage();
         sendMessage.enableMarkdown(true);
         sendMessage.setChatId(msg.getChatId()); // Боту может писать не один человек, и поэтому чтобы отправить сообщение, грубо говоря нужно узнать куда его отправлять
-        sendMessage.setReplyToMessageId(msg.getMessageId());
+//        sendMessage.setReplyToMessageId(msg.getMessageId());
         sendMessage.setText(text);
         setButtons(sendMessage, txtsOfBtns);
         setInline(sendMessage, inlineBtns);
