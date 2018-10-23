@@ -1,6 +1,5 @@
 package com.bla;
 
-import com.antonioaltieri.telegram.botapi.MessageHandler;
 import com.bla.entities.Car;
 import org.telegram.telegrambots.ApiContextInitializer;
 import org.telegram.telegrambots.TelegramBotsApi;
@@ -16,7 +15,6 @@ import org.telegram.telegrambots.api.objects.replykeyboard.buttons.KeyboardButto
 import org.telegram.telegrambots.api.objects.replykeyboard.buttons.KeyboardRow;
 import org.telegram.telegrambots.bots.TelegramLongPollingBot;
 import org.telegram.telegrambots.exceptions.TelegramApiException;
-import com.antonioaltieri.telegram.botapi.types.Message.Type;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -38,16 +36,10 @@ public class Bot extends TelegramLongPollingBot {
         }
     }
 
-    @MessageHandler(contentTypes = Type.TEXT)
-    public void onBrand() {
-
-    }
-
     /**
      * Метод для приема сообщений.
      * @param update Содержит сообщение от пользователя.
      */
-    // TODO: Replace blocks of 'If' to 'Switch-Case'
     @Override
     public void onUpdateReceived(Update update) {
         if(update.hasMessage()) {
@@ -135,11 +127,13 @@ public class Bot extends TelegramLongPollingBot {
     @SuppressWarnings("deprecation") // Означает то, что в новых версиях метод уберут или заменят
     private void sendMsg(Message msg, String text) {
         SendMessage sendMessage = new SendMessage();
+        sendMessage.enableMarkdown(true);
         sendMessage.setChatId(msg.getChatId()); // Боту может писать не один человек, и поэтому чтобы отправить сообщение, грубо говоря нужно узнать куда его отправлять
+        sendMessage.setReplyToMessageId(msg.getMessageId());
         sendMessage.setText(text);
         setButtons(sendMessage, txtsOfBtns);
         setInline(sendMessage, inlineBtns);
-        try { //Чтобы не крашнулась программа при вылете Exception
+        try {
             sendMessage(sendMessage);
         } catch (TelegramApiException e){
             e.printStackTrace();
