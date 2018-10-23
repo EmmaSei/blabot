@@ -10,7 +10,6 @@ import org.telegram.telegrambots.api.objects.Message;
 import org.telegram.telegrambots.api.objects.Update;
 import org.telegram.telegrambots.api.objects.replykeyboard.InlineKeyboardMarkup;
 import org.telegram.telegrambots.api.objects.replykeyboard.ReplyKeyboardMarkup;
-import org.telegram.telegrambots.api.objects.replykeyboard.ReplyKeyboardRemove;
 import org.telegram.telegrambots.api.objects.replykeyboard.buttons.InlineKeyboardButton;
 import org.telegram.telegrambots.api.objects.replykeyboard.buttons.KeyboardButton;
 import org.telegram.telegrambots.api.objects.replykeyboard.buttons.KeyboardRow;
@@ -25,6 +24,19 @@ import java.util.Map;
 public class Bot extends TelegramLongPollingBot {
     private Car car = new Car();
     private ArrayList<String> txtsOfBtns = new ArrayList<>();
+    // TODO: include library of cars brands
+    private ArrayList<String> listOfBrands = new ArrayList<>();
+
+    public Bot() {
+        super();
+        //TODO remove this mock
+        {
+            listOfBrands.add("Mersedes");
+            listOfBrands.add("BMW");
+            listOfBrands.add("Audi");
+            listOfBrands.add("Toyota");
+        }
+    }
 
     public static void main(String[] args) {
         ApiContextInitializer.init(); // Инициализируем апи
@@ -60,17 +72,6 @@ public class Bot extends TelegramLongPollingBot {
                         // TODO: check cars info
                         boolean firstTrip = true;
                         if (firstTrip) {
-                            // TODO: include library of cars brands
-                            ArrayList<String> listOfBrands = new ArrayList<>();
-
-                            //TODO remove this mock
-                            {
-                                listOfBrands.add("Mersedes");
-                                listOfBrands.add("BMW");
-                                listOfBrands.add("Audi");
-                                listOfBrands.add("Toyota");
-                            }
-
                             listOfBrands.forEach(brand -> txtsOfBtns.add(brand));
 
                             sendMsg(msg, "Первая поездка! Расскажи о своей машине. Какой она Марки?");
@@ -90,9 +91,12 @@ public class Bot extends TelegramLongPollingBot {
                         break;
                     }
                 default: {
-                        sendMsg(msg, msg.getFrom().getFirstName() + ", ты несешь чушь!");
-                        break;
+                    if (listOfBrands.contains(txt)){
+                        sendMsg(msg, "Отлично! Какая Модель?");
                     }
+                    sendMsg(msg, msg.getFrom().getFirstName() + ", ты несешь чушь!");
+                    break;
+                }
             }
         }
     }
@@ -120,7 +124,6 @@ public class Bot extends TelegramLongPollingBot {
     private void sendMsg(Message msg, String text) {
         SendMessage sendMessage = new SendMessage();
         sendMessage.enableMarkdown(true);
-        sendMessage.setReplyMarkup(new ReplyKeyboardRemove());
         sendMessage.setChatId(msg.getChatId()); // Боту может писать не один человек, и поэтому чтобы отправить сообщение, грубо говоря нужно узнать куда его отправлять
 //        sendMessage.setReplyToMessageId(msg.getMessageId());
         sendMessage.setText(text);
