@@ -44,11 +44,11 @@ public class Bot extends TelegramLongPollingBot {
         if(update.hasMessage()) {
             Message msg = update.getMessage();
             String txt = msg.getText();
+            txtsOfBtns.clear();
 //            msg.getFrom().getId();
 
             switch (txt) {
                 case "/start" : {
-                        txtsOfBtns.clear();
                         txtsOfBtns.add("Предложить поездку");
                         txtsOfBtns.add("Найти поездку");
                         sendMsg(msg, "Hello, world! This is your stupid bot!");
@@ -70,7 +70,6 @@ public class Bot extends TelegramLongPollingBot {
                                 listOfBrands.add("Toyota");
                             }
 
-                            txtsOfBtns.clear();
                             listOfBrands.forEach(brand -> txtsOfBtns.add(brand));
 
                             sendMsg(msg, "Первая поездка! Расскажи о своей машине. Какой она Марки?");
@@ -89,13 +88,8 @@ public class Bot extends TelegramLongPollingBot {
                         sendMsg(msg, "Уже ищу!");
                         break;
                     }
-                case "/number" : {
-                        car.setNumber(update.toString());
-                        sendMsg(msg, car.toString());
-                        break;
-                    }
-                case "/marka" : {
-                        sendMsg(msg, car.toString());
+                default: {
+                        sendMsg(msg, msg.getFrom().getFirstName() + ", ты несешь чушь!");
                         break;
                     }
             }
