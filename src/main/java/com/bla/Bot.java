@@ -63,24 +63,25 @@ public class Bot extends TelegramLongPollingBot {
 
             switch (txt) {
                 case "/start" : {
-                        txtsOfBtns.add("Предложить поездку");
-                        txtsOfBtns.add("Найти поездку");
-                        sendMsg(msg, "Hello, world! This is your stupid bot!");
-                        answerCallbackQuery(update.getCallbackQuery().getId(), "Blya!");
-                        break;
-                    }
+                    txtsOfBtns.add("Предложить поездку");
+                    txtsOfBtns.add("Найти поездку");
+                    sendMsg(msg, "Hello, world! This is your stupid bot!");
+                    answerCallbackQuery(update.getCallbackQuery().getId(), "Blya!");
+                    break;
+                }
                 case "Предложить поездку": {
-                        // TODO: check cars info
-                        boolean firstTrip = true;
-                        if (firstTrip) {
-                            listOfBrands.forEach(brand -> txtsOfBtns.add(brand));
-                            sendMsg(msg, "Первая поездка! Расскажи о своей машине. Какой она Марки?");
-                        }
+                    // TODO: check cars info
+                    boolean firstTrip = true;
+                    if (firstTrip) {
+                        listOfBrands.forEach(brand -> txtsOfBtns.add(brand));
+                        sendMsg(msg, "Первая поездка! Расскажи о своей машине. Какой она Марки?");
                     }
+                    break;
+                }
                 case "Найти поездку" : {
-                        sendMsg(msg, "Уже ищу!");
-                        break;
-                    }
+                    sendMsg(msg, "Уже ищу!");
+                    break;
+                }
                 default: {
                     if (listOfBrands.contains(txt)){
                         sendMsgRemoveBtn(msg, "Отлично! Какая Модель?");
