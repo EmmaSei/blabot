@@ -10,6 +10,7 @@ import org.telegram.telegrambots.api.objects.Message;
 import org.telegram.telegrambots.api.objects.Update;
 import org.telegram.telegrambots.api.objects.replykeyboard.InlineKeyboardMarkup;
 import org.telegram.telegrambots.api.objects.replykeyboard.ReplyKeyboardMarkup;
+import org.telegram.telegrambots.api.objects.replykeyboard.ReplyKeyboardRemove;
 import org.telegram.telegrambots.api.objects.replykeyboard.buttons.InlineKeyboardButton;
 import org.telegram.telegrambots.api.objects.replykeyboard.buttons.KeyboardButton;
 import org.telegram.telegrambots.api.objects.replykeyboard.buttons.KeyboardRow;
@@ -119,6 +120,7 @@ public class Bot extends TelegramLongPollingBot {
     private void sendMsg(Message msg, String text) {
         SendMessage sendMessage = new SendMessage();
         sendMessage.enableMarkdown(true);
+        sendMessage.setReplyMarkup(new ReplyKeyboardRemove());
         sendMessage.setChatId(msg.getChatId()); // Боту может писать не один человек, и поэтому чтобы отправить сообщение, грубо говоря нужно узнать куда его отправлять
 //        sendMessage.setReplyToMessageId(msg.getMessageId());
         sendMessage.setText(text);
